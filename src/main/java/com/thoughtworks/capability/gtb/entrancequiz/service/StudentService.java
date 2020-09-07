@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Student;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Team;
 import com.thoughtworks.capability.gtb.entrancequiz.utils.JsonUtil;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class StudentService {
 
     private List<Team> teams;
 
-    public StudentService() {
+    public StudentService() throws IOException {
         this.students = new ArrayList<>();
         this.teams = new ArrayList<>();
         initStudents();
@@ -35,8 +38,8 @@ public class StudentService {
         return teams;
     }
 
-    private void initStudents() {
-        String studentJson = JsonUtil.loadTestSuiteResource("students.json");
-        students = JsonUtil.unmarshal(studentJson, new TypeReference<List<Student>>() {});
+    private void initStudents() throws IOException {
+        ClassPathResource classPathResource = new ClassPathResource("studentResource/students.json");
+        students = JsonUtil.unmarshal(classPathResource.getInputStream(), new TypeReference<List<Student>>() {});
     }
 }

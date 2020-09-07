@@ -10,6 +10,7 @@ import org.springframework.boot.json.JsonParseException;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 
@@ -35,11 +36,11 @@ public class JsonUtil {
         }
     }
 
-    public static <T> T unmarshal(String value, TypeReference<T> typeRef) {
+    public static <T> T unmarshal(InputStream value, TypeReference<T> typeRef) {
         try {
             return mapper.readValue(value, typeRef);
         } catch (IOException e) {
-            throw new JsonParseException(e);
+            throw new UncheckedIOException(e);
         }
     }
 }
