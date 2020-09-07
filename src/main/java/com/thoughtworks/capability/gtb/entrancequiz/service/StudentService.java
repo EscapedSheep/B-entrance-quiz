@@ -65,7 +65,6 @@ public class StudentService {
 
     private void checkTeamName(String name) {
         List<Team> filterList = teams.stream().filter(team -> team.getTeamName().equals(name)).collect(Collectors.toList());
-        System.out.println(filterList.size());
         if (filterList.size() > 0) {
             throw new TeamNameConflictException("Team name conflict");
         }
