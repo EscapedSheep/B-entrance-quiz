@@ -8,8 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StudentService {
@@ -22,6 +21,7 @@ public class StudentService {
         this.students = new ArrayList<>();
         this.teams = new ArrayList<>();
         initStudents();
+        initTeams();
     }
 
     public void addStudent(String name) {
@@ -35,6 +35,24 @@ public class StudentService {
 
     public List<Team> getTeams() {
         return teams;
+    }
+
+    public List<Team> getGroupStudent() {
+        List<Student> shuffleStudents = new ArrayList<>(students);
+        Collections.shuffle(shuffleStudents);
+        Iterator<Student> iterator = shuffleStudents.iterator();
+        int team = 0;
+        while(iterator.hasNext()) {
+            teams.get(team).addStudent(iterator.next());
+            team = team == 5 ? 0 : team + 1;
+        }
+        return teams;
+    }
+
+    private void initTeams() {
+        for(int i = 1; i <= 6; i++) {
+            teams.add(new Team("Team" + i));
+        }
     }
 
     private void initStudents() throws IOException {

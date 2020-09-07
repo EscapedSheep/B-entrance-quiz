@@ -1,5 +1,6 @@
 package com.thoughtworks.capability.gtb.entrancequiz.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
@@ -10,6 +11,11 @@ public class Team {
     public Team(String teamName, List<Student> teamStudent) {
         this.teamName = teamName;
         this.teamStudent = teamStudent;
+    }
+
+    public Team(String teamName) {
+        this.teamName = teamName;
+        this.teamStudent = new ArrayList<>();
     }
 
     public String getTeamName() {
