@@ -1,30 +1,35 @@
 package com.thoughtworks.capability.gtb.entrancequiz.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ChangeTeamNameRequest {
-    private int id;
-    private String name;
+    @JsonProperty(value = "oldName")
+    private String oldName;
+
+    @JsonProperty(value = "newName")
+    private String newName;
 
     public ChangeTeamNameRequest() {
     }
 
-    public ChangeTeamNameRequest(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public ChangeTeamNameRequest(String oldName, String newName) {
+        this.oldName = oldName;
+        this.newName = newName;
     }
 
-    public int getId() {
-        return id;
+    public String getOldName() {
+        return oldName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
     }
 
-    public String getName() {
-        return name;
+    public String getNewName() {
+        return newName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 }

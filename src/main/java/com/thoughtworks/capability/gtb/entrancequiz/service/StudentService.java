@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.ChangeTeamNameRequest;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Student;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Team;
+import com.thoughtworks.capability.gtb.entrancequiz.exception.TeamNameConflictException;
 import com.thoughtworks.capability.gtb.entrancequiz.utils.JsonUtil;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -37,7 +39,13 @@ public class StudentService {
     }
 
     public void changeTeamName(ChangeTeamNameRequest request) {
-        teams.get(request.getId() - 1).setTeamName(request.getName());
+        checkTeamName(request.getNewName());
+        for(Team team : teams) {
+            if (team.getTeamName().equals(request.getOldName())) {
+                team.setTeamName(request.getNewName());
+                break;
+            }
+        }
     }
 
     public List<Team> getGroupStudent() {
@@ -55,10 +63,18 @@ public class StudentService {
         return teams;
     }
 
+    private void checkTeamName(String name) {
+        List<Team> filterList = teams.stream().filter(team -> team.getTeamName().equals(name)).collect(Collectors.toList());
+        System.out.println(filterList.size());
+        if (filterList.size() > 0) {
+            throw new TeamNameConflictException("Team name conflict");
+        }
+    }
+
     private void initTeams() {
         this.teams = new ArrayList<>();
         for(int i = 1; i <= 6; i++) {
-            teams.add(new Team("Team" + i));
+            teams.add(new Team("Team " + i));
         }
     }
 
