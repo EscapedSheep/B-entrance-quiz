@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.boot.json.JsonParseException;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
