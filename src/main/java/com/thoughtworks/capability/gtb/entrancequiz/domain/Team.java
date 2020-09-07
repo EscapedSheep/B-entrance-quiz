@@ -37,4 +37,8 @@ public class Team {
     public void addStudent(Student student) {
         teamStudent.add(student);
     }
+
+    public void cleanTeam() {
+        teamStudent.clear();
+    }
 }

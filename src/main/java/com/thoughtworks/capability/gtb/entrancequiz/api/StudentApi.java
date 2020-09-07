@@ -1,5 +1,6 @@
 package com.thoughtworks.capability.gtb.entrancequiz.api;
 
+import com.thoughtworks.capability.gtb.entrancequiz.domain.ChangeTeamNameRequest;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Student;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Team;
 import com.thoughtworks.capability.gtb.entrancequiz.service.StudentService;
@@ -31,8 +32,14 @@ public class StudentApi {
     }
 
     @PostMapping("/students")
-    public ResponseEntity addStudent(@RequestBody String name) {
+    public ResponseEntity<List<Student>> addStudent(@RequestBody String name) {
         studentService.addStudent(name);
         return ResponseEntity.created(null).body(studentService.getStudents());
+    }
+
+    @PostMapping("/team")
+    public ResponseEntity<List<Team>> changeTeamName(@RequestBody ChangeTeamNameRequest request) {
+        studentService.changeTeamName(request);
+        return ResponseEntity.ok(studentService.getTeams());
     }
 }

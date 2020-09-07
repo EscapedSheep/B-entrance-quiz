@@ -1,6 +1,7 @@
 package com.thoughtworks.capability.gtb.entrancequiz.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.thoughtworks.capability.gtb.entrancequiz.domain.ChangeTeamNameRequest;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Student;
 import com.thoughtworks.capability.gtb.entrancequiz.domain.Team;
 import com.thoughtworks.capability.gtb.entrancequiz.utils.JsonUtil;
@@ -35,8 +36,14 @@ public class StudentService {
         return teams;
     }
 
+    public void changeTeamName(ChangeTeamNameRequest request) {
+        teams.get(request.getId() - 1).setTeamName(request.getName());
+    }
+
     public List<Team> getGroupStudent() {
-        initTeams();
+        for(Team team : teams) {
+            team.cleanTeam();
+        }
         List<Student> shuffleStudents = new ArrayList<>(students);
         Collections.shuffle(shuffleStudents);
         Iterator<Student> iterator = shuffleStudents.iterator();
