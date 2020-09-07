@@ -57,4 +57,14 @@ class StudentApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].teamName", is("new Team 1")));
     }
+
+    @Test
+    void should_throw_409_error_when_team_name_conflict() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ChangeTeamNameRequest request = new ChangeTeamNameRequest("Team 1", "Team 2");
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(post("/students/team").contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .andExpect(status().isConflict());
+    }
 }
