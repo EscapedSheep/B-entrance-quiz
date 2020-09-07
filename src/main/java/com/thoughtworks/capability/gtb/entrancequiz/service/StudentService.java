@@ -18,8 +18,6 @@ public class StudentService {
     private List<Team> teams;
 
     public StudentService() throws IOException {
-        this.students = new ArrayList<>();
-        this.teams = new ArrayList<>();
         initStudents();
         initTeams();
     }
@@ -38,6 +36,7 @@ public class StudentService {
     }
 
     public List<Team> getGroupStudent() {
+        initTeams();
         List<Student> shuffleStudents = new ArrayList<>(students);
         Collections.shuffle(shuffleStudents);
         Iterator<Student> iterator = shuffleStudents.iterator();
@@ -50,12 +49,14 @@ public class StudentService {
     }
 
     private void initTeams() {
+        this.teams = new ArrayList<>();
         for(int i = 1; i <= 6; i++) {
             teams.add(new Team("Team" + i));
         }
     }
 
     private void initStudents() throws IOException {
+        this.students = new ArrayList<>();
         ClassPathResource classPathResource = new ClassPathResource("studentResource/students.json");
         students = JsonUtil.unmarshal(classPathResource.getInputStream(), new TypeReference<List<Student>>() {});
     }
